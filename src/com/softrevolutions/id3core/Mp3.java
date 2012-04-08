@@ -14,9 +14,13 @@ public class Mp3 {
 
 	private boolean id3v1TagPresent;
 
-	public Mp3 createFrom(File file) {
+	public static Mp3 createFrom(File file) {
+		Mp3 mp3 = new Mp3();
 		if (file.exists()) {
-			return null;
+			byte[] id3Data = readId3V1Data(file);
+			mp3.id3v1TagPresent = Id3V1.checkForId3V1Tag(id3Data);
+
+			return mp3;
 		}
 		throw new IllegalArgumentException("File " + file.getPath()
 				+ "doesn't exists");
@@ -29,24 +33,17 @@ public class Mp3 {
 	 *            File to be read. This file should exist.
 	 * @return 128 bytes of ID3V1
 	 */
-	public byte[] readId3V1Data(File file) {
+	public static byte[] readId3V1Data(File file) {
 		final byte[] buffer = new byte[128];
 		try (RandomAccessFile mp3File = new RandomAccessFile(file, "r")) {
 			mp3File.seek(mp3File.length() - 128);
 			mp3File.read(buffer, 0, 128);
-			id3v1TagPresent = checkForId3V1Tag(buffer);
-
 		} catch (FileNotFoundException e) {
 
 		} catch (IOException e) {
 
 		}
-		return null;
-	}
-
-	private boolean checkForId3V1Tag(byte[] buffer) {
-		String id3Header = new String(buffer, 0, 3);
-		return id3Header.equals(Id3V1.HEADER);
+		return buffer;
 	}
 
 	public File getMp3File() {
