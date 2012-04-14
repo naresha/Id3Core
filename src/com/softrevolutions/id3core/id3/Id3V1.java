@@ -1,6 +1,9 @@
 package com.softrevolutions.id3core.id3;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
+
+import com.softrevolutions.id3core.util.Util;
 
 public class Id3V1 {
 
@@ -19,6 +22,8 @@ public class Id3V1 {
 	private String album;
 	private int year;
 	private String comment;
+	//TODO: Check if this can be removed
+	private byte[] rawBytes;
 
 	public static Id3V1 createFromBytes(byte[] data) {
 		int offset = SIZE_OF_HEADER;
@@ -34,7 +39,16 @@ public class Id3V1 {
 
 		Id3V1 id3v1 = new Id3V1();
 		id3v1.setTitle(title);
+		id3v1.rawBytes = data;
 		return id3v1;
+	}
+	
+	public byte[] getBytes(){
+		int offset = SIZE_OF_HEADER;
+		String title = Util.getFixedLengthString(this.title, SIZE_OF_TITLE);
+		byte[] titleBytes = Util.convertToByteArray(title);
+		Util.repaceBytes(rawBytes, offset, titleBytes);
+		return rawBytes;
 	}
 
 	public String getTitle() {
