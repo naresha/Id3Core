@@ -1,7 +1,6 @@
 package com.softrevolutions.id3core.id3;
 
 import java.io.UnsupportedEncodingException;
-import java.util.Arrays;
 
 import com.softrevolutions.id3core.util.Util;
 
@@ -47,7 +46,7 @@ public class Id3V1 {
 		int offset = SIZE_OF_HEADER;
 		String title = Util.getFixedLengthString(this.title, SIZE_OF_TITLE);
 		byte[] titleBytes = Util.convertToByteArray(title);
-		Util.repaceBytes(rawBytes, offset, titleBytes);
+		Util.replaceBytes(rawBytes, offset, titleBytes);
 		return rawBytes;
 	}
 

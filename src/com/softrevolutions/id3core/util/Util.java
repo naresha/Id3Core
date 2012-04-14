@@ -12,7 +12,7 @@ public class Util {
 	public static String getSpaces(int length) {
 		StringBuilder buffer = new StringBuilder(30);
 		for (int i = 0; i < length; i++) {
-			buffer.append(" ");
+			buffer.append((char)0);
 		}
 		return buffer.toString();
 	}
@@ -61,7 +61,7 @@ public class Util {
 	 * @param replaceValue
 	 * @return
 	 */
-	public static byte[] repaceBytes(byte[] source, int offset, byte[] replaceValue){
+	public static byte[] replaceBytes(byte[] source, int offset, byte[] replaceValue){
 		for(int i=0; i<replaceValue.length; i++){
 			source[offset + i] = replaceValue[i];
 		}

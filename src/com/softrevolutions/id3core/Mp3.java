@@ -83,8 +83,5 @@ public class Mp3 {
 		return id3v1;
 	}
 
-	public boolean isId3v1TagPresent() {
-		return id3v1TagPresent;
-	}
 
 }
